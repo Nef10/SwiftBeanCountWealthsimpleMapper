@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>WealthsimpleConversionError Enumeration Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+
+    <a name="//apple_ref/swift/Enum/WealthsimpleConversionError" class="dashAnchor"></a>
+
+    <a title="WealthsimpleConversionError Enumeration Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="../index.html">
+          SwiftBeanCountWealthsimpleMapper Docs
+        </a>
+         (100% documented)
+      </p>
+    
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/Nef10/SwiftBeanCountWealthsimpleMapper">
+            <img class="header-icon" src="../img/gh.png"/>
+            View on GitHub
+          </a>
+        </p>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="dash-feed://https%3A%2F%2FNef10.github.io%2FSwiftBeanCountWealthsimpleMapper%2Fdocsets%2FSwiftBeanCountWealthsimpleMapper.xml">
+            <img class="header-icon" src="../img/dash.png"/>
+            Install in Dash
+          </a>
+        </p>
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="../index.html">SwiftBeanCountWealthsimpleMapper Reference</a>
+      <img class="carat" src="../img/carat.png" />
+      WealthsimpleConversionError Enumeration Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/WealthsimpleConversionError.html">WealthsimpleConversionError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/WealthsimpleLedgerMapper.html">WealthsimpleLedgerMapper</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content top-matter">
+            <h1>WealthsimpleConversionError</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">WealthsimpleConversionError</span> <span class="p">:</span> <span class="kt">Error</span></code></pre>
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">WealthsimpleConversionError</span><span class="p">:</span> <span class="kt">LocalizedError</span></code></pre>
+
+                </div>
+              </div>
+            <p>Errors which can happen when transforming downloaded wealthsimple data into SwiftBeanCountModel types</p>
+
+              <div class="slightly-smaller">
+                <a href="https://github.com/Nef10/SwiftBeanCountWealthsimpleMapper/blob/main/Sources/SwiftBeanCountWealthsimpleMapper/WealthsimpleConversionError.swift#L11-L23">Show on GitHub</a>
+              </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-content">
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:32SwiftBeanCountWealthsimpleMapper0D15ConversionErrorO16missingCommodityyACSScACmF"></a>
+                    <a name="//apple_ref/swift/Element/missingCommodity(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:32SwiftBeanCountWealthsimpleMapper0D15ConversionErrorO16missingCommodityyACSScACmF">missingCommodity(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>a commodity was not found in the ledger</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">missingCommodity</span><span class="p">(</span><span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Nef10/SwiftBeanCountWealthsimpleMapper/blob/main/Sources/SwiftBeanCountWealthsimpleMapper/WealthsimpleConversionError.swift#L13">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:32SwiftBeanCountWealthsimpleMapper0D15ConversionErrorO14missingAccountyACSS_S2StcACmF"></a>
+                    <a name="//apple_ref/swift/Element/missingAccount(_:_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:32SwiftBeanCountWealthsimpleMapper0D15ConversionErrorO14missingAccountyACSS_S2StcACmF">missingAccount(_:<wbr>_:<wbr>_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>an account was not found in the ledger</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">missingAccount</span><span class="p">(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">String</span><span class="p">,</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Nef10/SwiftBeanCountWealthsimpleMapper/blob/main/Sources/SwiftBeanCountWealthsimpleMapper/WealthsimpleConversionError.swift#L15">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:32SwiftBeanCountWealthsimpleMapper0D15ConversionErrorO26unsupportedTransactionTypeyACSScACmF"></a>
+                    <a name="//apple_ref/swift/Element/unsupportedTransactionType(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:32SwiftBeanCountWealthsimpleMapper0D15ConversionErrorO26unsupportedTransactionTypeyACSScACmF">unsupportedTransactionType(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>mapping of this transaction type has not been implemented yet</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">unsupportedTransactionType</span><span class="p">(</span><span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Nef10/SwiftBeanCountWealthsimpleMapper/blob/main/Sources/SwiftBeanCountWealthsimpleMapper/WealthsimpleConversionError.swift#L17">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:32SwiftBeanCountWealthsimpleMapper0D15ConversionErrorO21unexpectedDescriptionyACSScACmF"></a>
+                    <a name="//apple_ref/swift/Element/unexpectedDescription(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:32SwiftBeanCountWealthsimpleMapper0D15ConversionErrorO21unexpectedDescriptionyACSScACmF">unexpectedDescription(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>the descriptions of the wealthsimple transactions is not the correct format</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">unexpectedDescription</span><span class="p">(</span><span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Nef10/SwiftBeanCountWealthsimpleMapper/blob/main/Sources/SwiftBeanCountWealthsimpleMapper/WealthsimpleConversionError.swift#L19">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:32SwiftBeanCountWealthsimpleMapper0D15ConversionErrorO15accountNotFoundyACSScACmF"></a>
+                    <a name="//apple_ref/swift/Element/accountNotFound(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:32SwiftBeanCountWealthsimpleMapper0D15ConversionErrorO15accountNotFoundyACSScACmF">accountNotFound(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>the account of the postion or transaction is not contained in the account property
+Did you forget to set it to the downloaded accounts before attempting mapping?</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">accountNotFound</span><span class="p">(</span><span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Nef10/SwiftBeanCountWealthsimpleMapper/blob/main/Sources/SwiftBeanCountWealthsimpleMapper/WealthsimpleConversionError.swift#L22">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10Foundation14LocalizedErrorP16errorDescriptionSSSgvp"></a>
+                    <a name="//apple_ref/swift/Property/errorDescription" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10Foundation14LocalizedErrorP16errorDescriptionSSSgvp">errorDescription</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">errorDescription</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Nef10/SwiftBeanCountWealthsimpleMapper/blob/main/Sources/SwiftBeanCountWealthsimpleMapper/WealthsimpleConversionError.swift#L26-L42">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2020 <a class="link" href="https://github.com/Nef10" target="_blank" rel="external">Nef10</a>. All rights reserved. (Last updated: 2020-08-01)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+    </section>
+  </body>
+</div>
+</html>
