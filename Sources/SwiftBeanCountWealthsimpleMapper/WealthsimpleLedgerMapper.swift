@@ -224,6 +224,8 @@ public struct WealthsimpleLedgerMapper {
             result = try mapRefund(transaction: transaction, in: account, assetAccountName: assetAccountName)
         case .nonResidentWithholdingTax:
             result = try mapNonResidentWithholdingTax(transaction: transaction, in: account, assetAccountName: assetAccountName)
+        case .reimbursement:
+            result = try mapReimbursement(transaction: transaction, in: account, assetAccountName: assetAccountName)
         default:
             throw WealthsimpleConversionError.unsupportedTransactionType(transaction.transactionType.rawValue)
         }
@@ -275,6 +277,14 @@ public struct WealthsimpleLedgerMapper {
         return SwiftBeanCountModel.Transaction(metaData: meta, postings: [
            Posting(accountName: assetAccountName, amount: transaction.netCash),
            Posting(accountName: try lookup.ledgerAccountName(for: account, ofType: .expense, symbol: transaction.transactionType.rawValue), amount: transaction.negatedNetCash)
+        ])
+    }
+
+    private func mapReimbursement(transaction: WTransaction, in account: WAccount, assetAccountName: AccountName) throws -> STransaction {
+        let meta = TransactionMetaData(date: transaction.processDate, payee: Self.payee, narration: transaction.description, metaData: [MetaDataKeys.id: transaction.id])
+        return SwiftBeanCountModel.Transaction(metaData: meta, postings: [
+           Posting(accountName: assetAccountName, amount: transaction.netCash),
+            Posting(accountName: try lookup.ledgerAccountName(for: account, ofType: .expense, symbol: WTransaction.TransactionType.fee.rawValue), amount: transaction.negatedNetCash)
         ])
     }
 
