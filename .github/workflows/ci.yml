@@ -19,9 +19,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
     - name: Install Swift
-      uses: fwal/setup-swift@v1.3.0
-      with:
-        swift-version: "5.2.0"
+      uses: fwal/setup-swift@v1.4.0
     - name: Run tests
       run: swift test --enable-code-coverage --enable-test-discovery -Xswiftc -warnings-as-errors
     - name: Generate test coverage report
@@ -48,6 +46,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Run SwiftLint --strict
-        uses: norio-nomura/action-swiftlint@3.1.0
+        uses: norio-nomura/action-swiftlint@3.2.1
         with:
           args: --strict
