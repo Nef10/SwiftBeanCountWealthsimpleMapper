@@ -27,7 +27,12 @@ struct LedgerLookup {
     /// Create a LedgerLookup
     /// - Parameter ledger: Ledger to look up accounts, commodities or duplicate entries in
     init(_ ledger: Ledger) {
-        self.ledger = ledger
+        if let account = ledger.accounts.first {
+            self.ledger = ledger
+            print(account)
+        } else {
+            self.ledger = ledger
+        }
     }
 
     func doesTransactionExistInLedger(_ transaction: SwiftBeanCountModel.Transaction) -> Bool {

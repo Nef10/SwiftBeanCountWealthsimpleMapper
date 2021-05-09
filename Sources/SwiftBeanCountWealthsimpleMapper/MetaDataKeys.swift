@@ -20,13 +20,4 @@ enum MetaDataKeys {
 
     /// Key used to save the symbol of shares for which non resident witholding tax was paid
     static let symbol = "symbol"
-    
-    /// test
-    static let test = "test"
-    
-    /// test
-    static let test2 = "test2"
-    
-    /// test
-    static let test3 = "test3"
 }
