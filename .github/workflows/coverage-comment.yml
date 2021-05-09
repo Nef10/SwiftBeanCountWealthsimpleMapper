@@ -18,6 +18,8 @@ jobs:
         uses: actions/github-script@v4.0.2
         with:
           script: |
+            console.log(github.event.workflow_run);
+            console.log(github.event);
             var artifacts = await github.actions.listWorkflowRunArtifacts({
                owner: context.repo.owner,
                repo: context.repo.repo,
