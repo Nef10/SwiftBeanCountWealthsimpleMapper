@@ -7,7 +7,7 @@
 
 enum MetaDataKeys {
     /// Key used to save and lookup the wealthsimple transaction id of transactions in the meta data
-    static let id = "wealthsimple-id"
+    static let id = "wealthsimple-id2"
 
     /// Key used to save and the wealthsimple transaction id of a merged nrwt transactions in the meta data
     static let nrwtId = "wealthsimple-id-nrwt"
