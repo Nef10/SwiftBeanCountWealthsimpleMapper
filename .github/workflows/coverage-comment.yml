@@ -12,4 +12,4 @@ jobs:
     name: 'Comment Code Coverage'
     runs-on: ubuntu-latest
     steps:
-      - uses: Nef10/comment-lcov-action@dd416bb982e751bc3f044136d018e31358f66b90
+      - uses: Nef10/comment-lcov-action@v1.0.0
