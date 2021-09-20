@@ -56,6 +56,43 @@
             </ul>
           </li>
           <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/Wealthsimple.html">Wealthsimple</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/Wealthsimple.html#/s:12Wealthsimple7AccountV">– Account</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/Wealthsimple.html#/s:12Wealthsimple5AssetV">– Asset</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/Wealthsimple/Position.html">– Position</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/Wealthsimple.html#/s:12Wealthsimple11TransactionV">– Transaction</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/AccountProvider.html">AccountProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/AssetProvider.html">AssetProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/PositionProvider.html">PositionProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/TransactionProvider.html">TransactionProvider</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
             <a class="nav-group-name-link" href="Structs.html">Structures</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -82,89 +119,84 @@
 <p>The library relies heavily on meta data in your Beancount file to find accounts and commodities. Please add these to your Beancount file:</p>
 <h3 id='commodities' class='heading'>Commodities</h3>
 
-<p>Simply add the symbol used on Wealthsimple:</p>
-<pre class="highlight plaintext"><code>2011-10-18 commodity ACWV
+<p>If the commodity in your ledger differs from the symbol used by Wealthsimple, simply add <code>wealthsimple-symbol</code> as meta data:</p>
+<pre class="highlight plaintext"><code>2011-10-18 commodity ACWVETF
   wealthsimple-symbol: "ACWV"
 </code></pre>
 <h3 id='accounts' class='heading'>Accounts</h3>
 
-<p>For account you need to add two meta data entries:</p>
+<p>For Wealthsimple accounts themselves, you need to add this metadata: <code>importer-type: &quot;wealthsimple&quot;</code> and <code>number: &quot;XXX&quot;</code>. If the account can hold more than one commodity (all accounts except chequing and saving), it needs to follow this structure: <code>Assets:X:Y:Z:CashAccountName</code>, <code>Assets:X:Y:Z:CommodityName</code>, <code>Assets:X:Y:Z:OtherCommodityName</code>. The name of the cash account does not matter, but all other account must end with the commodity symbol (see above). Add the <code>importer-type</code> and <code>number</code> only to the cash account.</p>
+
+<p>For accounts used in transactions to and from your Wealthsimple accounts you need to provide meta data as well. These is in the form of <code>wealthsimple-key: &quot;accountNumber1 accountNumber2&quot;</code>. The account number is the same as above, and you can specify one or multiple per key. As keys use these values:</p>
 
 <ul>
-<li>First is the account type (<code>wealthsimple-account-type</code>), you can look up the possible values <a href="https://github.com/Nef10/WealthsimpleDownloader/blob/main/Sources/Wealthsimple/Account.swift#L37">here</a></li>
-<li>Second is a key (<code>wealthsimple-key</code>):
+<li>For dividend income accounts <code>wealthsimple-dividend-COMMODITYSYMBOL</code>, e.g. <code>wealthsimple-dividend-XGRO</code></li>
+<li>For the assset account you are using to contribute to registered accounts from, use <code>wealthsimple-contribution</code></li>
+<li>For the assset account you are using to deposit to non-registered accounts from, use <code>wealthsimple-deposit</code></li>
+<li>Use <code>wealthsimple-fee</code> on an expense account to track the wealthsimple fees</li>
+<li>Use <code>wealthsimple-non-resident-withholding-tax</code> on an expense account for non resident withholding tax</li>
+<li>In case some transaction does not balance within your ledger, an expense account with <code>wealthsimple-rounding</code> will get the difference</li>
+<li>If you want to track contribution room, use <code>wealthsimple-contribution-room</code> on an asset and expense account (optional, if not set it will not create postings for the contribution room)</li>
+<li>Other values for transaction types you might incur are:
 
 <ul>
-<li>For holdings and cash assset accounts this is the symbol of the stock, ETF or currency</li>
-<li>For dividend income accounts this is the symbol as well</li>
-<li>For the assset account you are going to contribute from, use <code>contribution</code></li>
-<li>For the assset account you are going to deposit from, use <code>deposit</code></li>
-<li>Use <code>fee</code> on an expense account to track the wealthsimple fees</li>
-<li>Use <code>non resident withholding tax</code> on an expense account for the tax</li>
-<li>In case some transaction does not balance, we will look for an expense account with <code>rounding</code></li>
-<li>In case you get a refund, add <code>refund</code> to an income account</li>
-<li>If you want to track contribution room, use <code>contribution-room</code> on an asset and expense account (optional)</li>
+<li><code>wealthsimple-reimbursement</code></li>
+<li><code>wealthsimple-interest</code></li>
+<li><code>wealthsimple-withdrawal</code></li>
+<li><code>wealthsimple-payment-transfer-in</code></li>
+<li><code>wealthsimple-payment-transfer-out</code></li>
+<li><code>wealthsimple-transfer-in</code></li>
+<li><code>wealthsimple-transfer-out</code></li>
+<li><code>wealthsimple-referral-bonus</code></li>
+<li><code>wealthsimple-giveaway-bonus</code></li>
+<li><code>wealthsimple-refund</code></li>
+<li><code>wealthsimple-payment-spend</code> (optional, will use fallback account if not provided)</li>
 </ul></li>
 </ul>
-
-<p>Both keys and types can be space separated in case you have multiple Wealthsimple accounts and for example want to combine the fees into one expense account, or you contribute from the same account.</p>
 
 <details>
   <summary>Full Example</summary>
 
 &ldquo;`
 2020-07-31 open Assets:Checking:Wealthsimple CAD
-  wealthsimple-account-type: &quot;ca_cash&rdquo;
-  wealthsimple-key: &ldquo;CAD&rdquo;
+  importer-type: &quot;wealthsimple&rdquo;
+  number: &ldquo;A001&rdquo;
 
 2020-07-31 open Assets:Investment:Wealthsimple:TFSA:Parking CAD
-  wealthsimple-account-type: &ldquo;ca_tfsa&rdquo;
-  wealthsimple-key: &ldquo;CAD&rdquo;
-
+  importer-type: &ldquo;wealthsimple&rdquo;
+  number: &ldquo;B002&rdquo;
 2020-07-31 open Assets:Investment:Wealthsimple:TFSA:ACWV ACWV
-  wealthsimple-account-type: &ldquo;ca_tfsa&rdquo;
-  wealthsimple-key: &ldquo;ACWV&rdquo;
+2020-07-31 open Assets:Investment:Wealthsimple:TFSA:XGRO XGRO
 
 2020-07-31 open Income:Capital:Dividend:ACWV USD
-  wealthsimple-account-type: &ldquo;ca_tfsa&rdquo;
-  wealthsimple-key: &ldquo;ACWV&rdquo;
+  wealthsimple-dividend-ACWV: &ldquo;A001 B002&rdquo;
 
 2020-07-31 open Assets:Checking:Bank CAD
-  wealthsimple-account-type: &ldquo;ca_tfsa&rdquo;
-  wealthsimple-key: &ldquo;contribution&rdquo;
+  wealthsimple-contribution: &ldquo;A001 B002&rdquo;
 
-2020-07-31 open Assets:Investment:OtherComany:TFSA
-  wealthsimple-account-type: &ldquo;ca_tfsa&rdquo;
-  wealthsimple-key: &ldquo;deposit&rdquo;
+2020-07-31 open Expenses:FinancialInstitutions:Investment:NonRegistered:Fees
+  wealthsimple-fee: &ldquo;A001&rdquo;
 
-2020-07-31 open Expenses:FinancialInstitutions:Investment:Fees
-  wealthsimple-account-type: &ldquo;ca_tfsa&rdquo;
-  wealthsimple-key: &ldquo;fee&rdquo;
+2020-07-31 open Expenses:FinancialInstitutions:Investment:Registered:Fees
+  wealthsimple-fee: &ldquo;B002&rdquo;
 
 2020-07-31 open Expenses:Tax:NRWT
-  wealthsimple-account-type: &ldquo;ca_tfsa&rdquo;
-  wealthsimple-key: &ldquo;non resident withholding tax&rdquo;
-
-2020-07-31 open Expenses:Rounding
-  wealthsimple-account-type: &ldquo;ca_tfsa&rdquo;
-  wealthsimple-key: &ldquo;rounding&rdquo;
-
-2020-07-31 open Income:FinancialInstitutions
-  wealthsimple-account-type: &ldquo;ca_tfsa&rdquo;
-  wealthsimple-key: &ldquo;refund&rdquo;
+  wealthsimple-non-resident-withholding-tax: &ldquo;A001 B002&rdquo;
 
 2020-07-31 open Assets:TFSAContributionRoom TFSA.ROOM
-  wealthsimple-account-type: &ldquo;ca_tfsa&rdquo;
-  wealthsimple-key: &ldquo;contribution-room&rdquo;
+  wealthsimple-contribution-room: &ldquo;B002&rdquo;
 
 2020-07-31 open Expenses:TFSAContributionRoom TFSA.ROOM
-  wealthsimple-account-type: &ldquo;ca_tfsa&rdquo;
-  wealthsimple-key: &ldquo;contribution-room&rdquo;
+  wealthsimple-contribution-room: &ldquo;B002&rdquo;
 &ldquo;&rdquo;
 </details>
 <h2 id='how' class='heading'>How</h2>
 
-<p>Please check out the complete documentation <a href="https://nef10.github.io/SwiftBeanCountWealthsimpleMapper/">here</a>. You can also have a look at the <a href="https://github.com/Nef10/SwiftBeanCountDownloaderApp">SwiftBeanCountDownloaderApp</a> which uses this library.</p>
+<p>1) First create an instance of the mapper via <code>WealthsimpleLedgerMapper(ledger:)</code>, passing the ledger which contains the meta data discussed above.
+2) Assign the downloaded wealthsimple accounts to the <code>accounts</code> property on the mapper.
+3) Call <code>mapPositionsToPriceAndBalance</code> or <code>mapTransactionsToPriceAndTransactions</code> to map your downloaded positions / transactions to SwiftBeanCountModel Prices and Balances / Prices and Transactions.</p>
+
+<p>Please also check out the complete documentation <a href="https://nef10.github.io/SwiftBeanCountWealthsimpleMapper/">here</a>. Additionally, you can have a look at the <a href="https://github.com/Nef10/SwiftBeanCountDownloaderApp">SwiftBeanCountDownloaderApp</a> which uses this library.</p>
 <h2 id='usage' class='heading'>Usage</h2>
 
 <p>The library supports the Swift Package Manger, so simply add a dependency in your <code>Package.swift</code>:</p>
@@ -176,7 +208,7 @@
 
 <ul>
 <li>Sell Gains are not calculated</li>
-<li>If transactions do not balance, it will add a rounding posting. However, due to SwiftBeanCountModel not yet fully supporting Beancount rounding, the amount of this posting will likely be 0 and need to be adjusted manually.</li>
+<li>In case a transactions does not balance it will not add a rounding posting because SwiftBeanCountModel does not yet fully supporting Beancount rounding</li>
 </ul>
 
 <p>Pull requests to extend the scope or remove limitations are very welcome.</p>
@@ -188,7 +220,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="https://github.com/Nef10" target="_blank" rel="noopener" rel="external">Nef10</a>. All rights reserved. (Last updated: 2021-09-17)</p>
+      <p>&copy; 2021 <a class="link" href="https://github.com/Nef10" target="_blank" rel="noopener" rel="external">Nef10</a>. All rights reserved. (Last updated: 2021-09-20)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="noopener" rel="external">jazzy ♪♫ v0.14.0</a>, a <a class="link" href="https://realm.io" target="_blank" rel="noopener" rel="external">Realm</a> project.</p>
     </section>
   </body>
