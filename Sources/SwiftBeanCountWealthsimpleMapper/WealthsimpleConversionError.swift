@@ -52,7 +52,7 @@ extension WealthsimpleConversionError: LocalizedError {
         case let .invalidCommoditySymbol(symbol):
             return "Could not generate account for commodity \(symbol). For the mapping to work commodity symbols must only contain charaters allowed in account names."
         case let .unexpectedStockSplit(description):
-            return "A stock split happend, but not exactly two transaction could be found: \(description)"
+            return "A stock split happened, but two matching transaction could not be found: \(description)"
         }
     }
 }
