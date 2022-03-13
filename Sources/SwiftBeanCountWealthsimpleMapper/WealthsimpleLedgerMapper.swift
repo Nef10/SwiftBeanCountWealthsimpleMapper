@@ -130,7 +130,8 @@ public struct WealthsimpleLedgerMapper {
         let stockSplits = wealthsimpleTransactions.filter { $0.transactionType == .stockDistribution }
         var prices = [Price]()
         var transactions = [STransaction]()
-        for wealthsimpleTransaction in wealthsimpleTransactions where wealthsimpleTransaction.transactionType != .nonResidentWithholdingTax && wealthsimpleTransaction.transactionType != .stockDistribution {
+        for wealthsimpleTransaction in wealthsimpleTransactions where wealthsimpleTransaction.transactionType != .nonResidentWithholdingTax
+                                                                      && wealthsimpleTransaction.transactionType != .stockDistribution {
             var (price, transaction) = try mapTransaction(wealthsimpleTransaction, in: account)
             if !lookup.doesTransactionExistInLedger(transaction) {
                 if wealthsimpleTransaction.transactionType == .dividend,
@@ -272,9 +273,9 @@ public struct WealthsimpleLedgerMapper {
     }
 
     private func mapStockSplits(_ transactions: [WTransaction], in account: WAccount) throws -> [STransaction] {
-        var splitPairs = [String:[WTransaction]]()
+        var splitPairs = [String: [WTransaction]]()
         for transaction in transactions {
-            if (splitPairs["\(transaction.symbol)"] == nil) {
+            if splitPairs["\(transaction.symbol)"] == nil {
                 splitPairs["\(transaction.symbol)"] = []
             }
             splitPairs["\(transaction.symbol)"]?.append(transaction)
@@ -290,10 +291,12 @@ public struct WealthsimpleLedgerMapper {
         guard transactions.count == 2 else {
             throw WealthsimpleConversionError.unexpectedStockSplit(transactions.first!.description)
         }
-        guard let buyTransaction = transactions.first(where: { !$0.quantity.starts(with: "-") }), let sellTransaction = transactions.first(where: { $0.quantity.starts(with: "-") }) else {
+        guard let buyTransaction = transactions.first(where: { !$0.quantity.starts(with: "-") }),
+              let sellTransaction = transactions.first(where: { $0.quantity.starts(with: "-") }) else {
             throw WealthsimpleConversionError.unexpectedStockSplit(transactions.first!.description)
         }
-        let result = STransaction(metaData: TransactionMetaData(date: buyTransaction.processDate, narration: buyTransaction.description, metaData: [MetaDataKeys.id: buyTransaction.id]), postings: [
+        let metaData = TransactionMetaData(date: buyTransaction.processDate, narration: buyTransaction.description, metaData: [MetaDataKeys.id: buyTransaction.id])
+        let result = STransaction(metaData: metaData, postings: [
             Posting(accountName: try lookup.ledgerAccountName(of: account, symbol: sellTransaction.symbol),
                     amount: Amount(for: sellTransaction.quantity, in: try lookup.commoditySymbol(for: sellTransaction.symbol)),
                     cost: try Cost(amount: nil, date: nil, label: nil)),
