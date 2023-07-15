@@ -287,7 +287,6 @@ final class WealthsimpleLedgerMapperTests: XCTestCase {
         // dividend without fx
         dividend.description = "ZFL-BMO Long Federal Bond ETF: 25-JUN-21 (record date) 24.0020 shares"
         (prices, transactions) = try mapper.mapTransactionsToPriceAndTransactions([dividend])
-        meta[MetaDataKeys.nrwtId] = nil
         transaction = Transaction(metaData: TransactionMetaData(date: dividend.processDate, metaData: meta), postings: [
             try posting(number: dividend.netCashAmount), try posting(account: "Income:t", number: "-32.42")
         ])
@@ -297,7 +296,6 @@ final class WealthsimpleLedgerMapperTests: XCTestCase {
         // dividend simple description
         dividend.description = "Dividend 123.10 CAD WSE100"
         (prices, transactions) = try mapper.mapTransactionsToPriceAndTransactions([dividend])
-        meta[MetaDataKeys.nrwtId] = nil
         meta[MetaDataKeys.dividendShares] = nil
         meta[MetaDataKeys.dividendRecordDate] = nil
         transaction = Transaction(metaData: TransactionMetaData(date: dividend.processDate, metaData: meta), postings: [
