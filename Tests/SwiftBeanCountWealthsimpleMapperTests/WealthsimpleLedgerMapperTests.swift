@@ -1,5 +1,3 @@
-// swiflint:disable file_length
-
 import SwiftBeanCountModel
 @testable import SwiftBeanCountWealthsimpleMapper
 import Wealthsimple
@@ -417,3 +415,4 @@ final class WealthsimpleLedgerMapperTests: XCTestCase {
     }
 
 }
+// swiftlint:disable:this file_length
