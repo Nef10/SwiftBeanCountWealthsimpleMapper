@@ -46,7 +46,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
     - name: Install Swift
-      uses: swift-actions/setup-swift@v1.25.0
+      uses: swift-actions/setup-swift@v1.26.0
     - name: Run tests
       run: swift test --enable-code-coverage -Xswiftc -warnings-as-errors
     - name: Save PR number
@@ -61,7 +61,7 @@ jobs:
         output-file: ./pr/lcov.info
     - name: Upload Coverage Information for Comment
       if: ${{ matrix.os == needs.get_os.outputs.coverage_os }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: pr
         path: pr/
@@ -82,7 +82,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Install Swift
-        uses: swift-actions/setup-swift@v1.25.0
+        uses: swift-actions/setup-swift@v1.26.0
       - name: Install SwiftLint
         run: |
           curl -L https://github.com/realm/SwiftLint/releases/download/0.54.0/swiftlint_linux.zip -o swiftlint.zip
