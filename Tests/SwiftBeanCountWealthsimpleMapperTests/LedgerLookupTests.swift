@@ -76,6 +76,8 @@ final class LedgerLookupTests: XCTestCase {
         // not found
         assert(try ledgerLookup.ledgerAccountName(for: .rounding, in: TestAccount(number: number), ofType: [.income]),
                throws: WealthsimpleConversionError.missingAccount(MetaDataKeys.rounding, number, "Income"))
+        assert(try ledgerLookup.ledgerAccountName(for: .transactionType(.dividend), in: TestAccount(number: number), ofType: [.income]),
+               throws: WealthsimpleConversionError.missingAccount("\(MetaDataKeys.prefix)\(TransactionType.dividend)", number, "Income"))
 
         // rounding
         try ledger.add(Account(name: accountName, metaData: [MetaDataKeys.rounding: number]))
