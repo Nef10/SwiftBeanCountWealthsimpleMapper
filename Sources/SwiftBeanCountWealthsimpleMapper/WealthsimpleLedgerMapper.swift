@@ -131,7 +131,7 @@ public struct WealthsimpleLedgerMapper { // swiftlint:disable:this type_body_len
         var prices = [Price](), transactions = [STransaction]()
         for wealthsimpleTransaction in wealthsimpleTransactions where wealthsimpleTransaction.transactionType != .nonResidentWithholdingTax
                                                                       && wealthsimpleTransaction.transactionType != .stockDistribution {
-            var (price, transaction) = try mapTransaction(wealthsimpleTransaction, in: account)
+            let (price, transaction) = try mapTransaction(wealthsimpleTransaction, in: account)
             if var transaction, !lookup.doesTransactionExistInLedger(transaction) {
                 if wealthsimpleTransaction.transactionType == .dividend,
                    let index = nrwtTransactions.firstIndex(where: { $0.symbol == wealthsimpleTransaction.symbol && $0.processDate == wealthsimpleTransaction.processDate }) {
@@ -172,6 +172,7 @@ public struct WealthsimpleLedgerMapper { // swiftlint:disable:this type_body_len
         return STransaction(metaData: TransactionMetaData(date: dividend.metaData.date, metaData: metaData), postings: postings)
     }
 
+    // swiftlint:disable:next cyclomatic_complexity
     private func mapTransaction(_ transaction: WTransaction, in account: WAccount) throws -> (Price?, STransaction?) {
         var price: Price?, result: STransaction?
         switch transaction.transactionType {
@@ -264,7 +265,8 @@ public struct WealthsimpleLedgerMapper { // swiftlint:disable:this type_body_len
         if let shares {
             metaDataDict[MetaDataKeys.dividendShares] = shares
         }
-        return STransaction(metaData: TransactionMetaData(date: transaction.processDate, narration:  manufactured ? "Manufactured Dividend" : "", metaData: metaDataDict), postings: [posting1, posting2])
+        return STransaction(metaData: TransactionMetaData(date: transaction.processDate, narration: manufactured ? "Manufactured Dividend" : "", metaData: metaDataDict),
+                            postings: [posting1, posting2])
     }
 
     private func mapStockDividend(_ transaction: WTransaction, in account: WAccount) throws -> (Price, STransaction) {
