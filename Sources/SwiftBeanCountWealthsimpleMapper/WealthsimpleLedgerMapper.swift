@@ -132,7 +132,7 @@ public struct WealthsimpleLedgerMapper { // swiftlint:disable:this type_body_len
         for wealthsimpleTransaction in wealthsimpleTransactions where wealthsimpleTransaction.transactionType != .nonResidentWithholdingTax
                                                                       && wealthsimpleTransaction.transactionType != .stockDistribution {
             var (price, transaction) = try mapTransaction(wealthsimpleTransaction, in: account)
-            if !lookup.doesTransactionExistInLedger(transaction) {
+            if var transaction, !lookup.doesTransactionExistInLedger(transaction) {
                 if wealthsimpleTransaction.transactionType == .dividend,
                    let index = nrwtTransactions.firstIndex(where: { $0.symbol == wealthsimpleTransaction.symbol && $0.processDate == wealthsimpleTransaction.processDate }) {
                     transaction = try mergeNRWT(nrwtTransactions[index], withDividendTransaction: transaction, in: account)
@@ -172,15 +172,15 @@ public struct WealthsimpleLedgerMapper { // swiftlint:disable:this type_body_len
         return STransaction(metaData: TransactionMetaData(date: dividend.metaData.date, metaData: metaData), postings: postings)
     }
 
-    private func mapTransaction(_ transaction: WTransaction, in account: WAccount) throws -> (Price?, STransaction) {
-        var price: Price?, result: STransaction
+    private func mapTransaction(_ transaction: WTransaction, in account: WAccount) throws -> (Price?, STransaction?) {
+        var price: Price?, result: STransaction?
         switch transaction.transactionType {
         case .buy:
             (price, result) = try mapBuy(transaction, in: account)
         case .sell:
             (price, result) = try mapSell(transaction, in: account)
-        case .dividend:
-            result = try mapDividend(transaction, in: account)
+        case .dividend, .manufacturedDividend:
+            result = try mapDividend(transaction, in: account, manufactured: transaction.transactionType == .manufacturedDividend)
         case .contribution:
             result = try mapContribution(transaction, in: account)
         case .deposit, .withdrawal, .paymentTransferOut, .transferIn, .transferOut:
@@ -193,6 +193,8 @@ public struct WealthsimpleLedgerMapper { // swiftlint:disable:this type_body_len
             result = try mapTransfer(transaction, in: account, accountTypes: [.expense, .income], payee: Self.payee)
         case .stockDividend:
             (price, result) = try mapStockDividend(transaction, in: account)
+        case .stockLoanBorrow, .stockLoanReturn:
+            break // right now we do not track stock loans
         default:
             throw WealthsimpleConversionError.unsupportedTransactionType(transaction.transactionType.rawValue)
         }
@@ -245,7 +247,7 @@ public struct WealthsimpleLedgerMapper { // swiftlint:disable:this type_body_len
         return STransaction(metaData: TransactionMetaData(date: transaction.processDate, metaData: [MetaDataKeys.id: transaction.id]), postings: postings)
     }
 
-    private func mapDividend(_ transaction: WTransaction, in account: WAccount) throws -> STransaction {
+    private func mapDividend(_ transaction: WTransaction, in account: WAccount, manufactured: Bool = false) throws -> STransaction {
         let (date, shares, foreignAmount) = parseDividendDescription(transaction.description)
         var income = transaction.negatedNetCash
         var price: Amount?
@@ -262,7 +264,7 @@ public struct WealthsimpleLedgerMapper { // swiftlint:disable:this type_body_len
         if let shares {
             metaDataDict[MetaDataKeys.dividendShares] = shares
         }
-        return STransaction(metaData: TransactionMetaData(date: transaction.processDate, metaData: metaDataDict), postings: [posting1, posting2])
+        return STransaction(metaData: TransactionMetaData(date: transaction.processDate, narration:  manufactured ? "Manufactured Dividend" : "", metaData: metaDataDict), postings: [posting1, posting2])
     }
 
     private func mapStockDividend(_ transaction: WTransaction, in account: WAccount) throws -> (Price, STransaction) {
