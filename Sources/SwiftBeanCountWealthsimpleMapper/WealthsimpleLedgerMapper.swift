@@ -25,6 +25,8 @@ public struct WealthsimpleLedgerMapper { // swiftlint:disable:this type_body_len
     /// Payee used for fee transactions
     private static let payee = "Wealthsimple"
 
+    private static let renameStockSplitPattern = "at 1.00000000 per share"
+
     /// Regex to parse the amount in foreign currency and the record date on dividend transactions from the description
     private static let dividendRegEx: NSRegularExpression = {
         // swiftlint:disable:next force_try
@@ -309,7 +311,7 @@ public struct WealthsimpleLedgerMapper { // swiftlint:disable:this type_body_len
                 transactions.append(try mapStockSplit(splitNonPairs, in: account))
             } else {
                 // ignore renames
-                let failedMappings = splitNonPairs.filter { !$0.description.contains("at 1.00000000 per share") }
+                let failedMappings = splitNonPairs.filter { !$0.description.contains(Self.renameStockSplitPattern) }
                 if !failedMappings.isEmpty {
                     throw WealthsimpleConversionError.unexpectedStockSplit(splitNonPairs.first!.description)
                 }
