@@ -194,7 +194,7 @@ public struct WealthsimpleLedgerMapper { // swiftlint:disable:this type_body_len
             result = try mapTransfer(transaction, in: account, accountTypes: [.expense, .income], payee: Self.payee)
         case .stockDividend:
             (price, result) = try mapStockDividend(transaction, in: account)
-        case .stockLoanBorrow, .stockLoanReturn:
+        case .stockLoanBorrow, .stockLoanReturn, .returnOfCapital, .nonCashDistribution:
             break // right now we do not track stock loans
         default:
             throw WealthsimpleConversionError.unsupportedTransactionType(transaction.transactionType.rawValue)
@@ -308,7 +308,11 @@ public struct WealthsimpleLedgerMapper { // swiftlint:disable:this type_body_len
                                             || "-\(splitNonPairs[0].marketValueAmount)" == splitNonPairs[1].marketValueAmount) {
                 transactions.append(try mapStockSplit(splitNonPairs, in: account))
             } else {
-                throw WealthsimpleConversionError.unexpectedStockSplit(splitNonPairs.first!.description)
+                // ignore renames
+                let failedMappings = splitNonPairs.filter { !$0.description.contains("at 1.00000000 per share") }
+                if !failedMappings.isEmpty {
+                    throw WealthsimpleConversionError.unexpectedStockSplit(splitNonPairs.first!.description)
+                }
             }
         }
         return transactions
