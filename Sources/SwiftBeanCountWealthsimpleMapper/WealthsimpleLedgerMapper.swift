@@ -229,7 +229,7 @@ public struct WealthsimpleLedgerMapper { // swiftlint:disable:this type_body_len
         let accountName = try lookup.ledgerAccountName(for: .transactionType(transaction.transactionType), in: account, ofType: accountTypes)
         let posting1 = Posting(accountName: try lookup.ledgerAccountName(of: account), amount: transaction.netCash)
         let posting2 = Posting(accountName: accountName, amount: transaction.negatedNetCash)
-        return STransaction(metaData: TransactionMetaData(date: transaction.processDate, payee: payee, metaData: [MetaDataKeys.id: transaction.id]),
+        return STransaction(metaData: TransactionMetaData(date: transaction.processDate, payee: payee, narration: transaction.description, metaData: [MetaDataKeys.id: transaction.id]),
                             postings: [posting1, posting2])
     }
 
