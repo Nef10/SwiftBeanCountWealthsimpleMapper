@@ -186,11 +186,11 @@ public struct WealthsimpleLedgerMapper { // swiftlint:disable:this type_body_len
             result = try mapDividend(transaction, in: account, manufactured: transaction.transactionType == .manufacturedDividend)
         case .contribution:
             result = try mapContribution(transaction, in: account)
-        case .deposit, .withdrawal, .paymentTransferOut, .transferIn, .transferOut:
+        case .deposit, .withdrawal, .paymentTransferOut, .transferIn, .transferOut, .payment:
             result = try mapTransfer(transaction, in: account, accountTypes: [.asset])
         case .paymentTransferIn, .referralBonus, .giveawayBonus, .refund, .cashbackBonus:
             result = try mapTransfer(transaction, in: account, accountTypes: [.asset, .income])
-        case .paymentSpend, .onlineBillPayment:
+        case .paymentSpend, .onlineBillPayment, .purchase:
             result = try mapTransfer(transaction, in: account, accountTypes: [.expense])
         case .fee, .reimbursement, .interest:
             result = try mapTransfer(transaction, in: account, accountTypes: [.expense, .income], payee: Self.payee)
