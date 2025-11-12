@@ -328,9 +328,9 @@ final class WealthsimpleLedgerMapperTests: XCTestCase {
     func testMapTransactionsTransfers() throws {
         var count = 1
         let types: [SwiftBeanCountModel.AccountType: [Wealthsimple.TransactionType]] = [
-            .asset: [.deposit, .withdrawal, .paymentTransferOut, .transferIn, .transferOut, .paymentTransferIn, .referralBonus, .giveawayBonus, .refund, .contribution],
-            .income: [.paymentTransferIn, .referralBonus, .giveawayBonus, .refund, .cashbackBonus, .fee, .reimbursement, .interest],
-            .expense: [.paymentSpend, .fee, .reimbursement, .interest]
+            .asset: [.deposit, .withdrawal, .paymentTransferOut, .transferIn, .transferOut, .paymentTransferIn, .referralBonus, .giveawayBonus, .contribution, .payment],
+            .income: [.paymentTransferIn, .referralBonus, .giveawayBonus, .cashbackBonus, .fee, .reimbursement, .interest],
+            .expense: [.paymentSpend, .fee, .reimbursement, .interest, .refund, .purchase]
         ]
         for (accountType, transactionTypes) in types {
             for transactionType in transactionTypes {
