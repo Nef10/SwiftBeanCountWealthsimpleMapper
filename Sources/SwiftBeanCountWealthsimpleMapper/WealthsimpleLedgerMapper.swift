@@ -225,10 +225,12 @@ public struct WealthsimpleLedgerMapper { // swiftlint:disable:this type_body_len
         return (try Price(date: transaction.processDate, commoditySymbol: lookup.commoditySymbol(for: transaction.symbol), amount: transaction.marketPrice), result)
     }
 
-    private func mapTransfer(_ transaction: WTransaction, in account: WAccount, accountTypes: [SwiftBeanCountModel.AccountType], payee: String = "") throws -> STransaction {
+    private func mapTransfer(_ transaction: WTransaction, in account: WAccount, accountTypes: [SwiftBeanCountModel.AccountType], payee: String = "", allowFx: Bool = false) throws -> STransaction {
         let accountName = try lookup.ledgerAccountName(for: .transactionType(transaction.transactionType), in: account, ofType: accountTypes)
+        let hasFX = allowFx && transaction.netCashCurrency != transaction.symbol
+        let amount = hasFX ? Amount(for: transaction.quantity, in: try lookup.commoditySymbol(for: transaction.symbol), negate: true) : transaction.negatedNetCash
         let posting1 = Posting(accountName: try lookup.ledgerAccountName(of: account), amount: transaction.netCash)
-        let posting2 = Posting(accountName: accountName, amount: transaction.negatedNetCash)
+        let posting2 = try Posting(accountName: accountName, amount: amount, price: hasFX ? (transaction.netCash.number.isSignMinus ? transaction.negatedNetCash : transaction.netCash) : nil, priceType: hasFX ? .total : nil)
         return STransaction(metaData: TransactionMetaData(date: transaction.processDate, payee: payee, narration: transaction.description, metaData: [MetaDataKeys.id: transaction.id]),
                             postings: [posting1, posting2])
     }
